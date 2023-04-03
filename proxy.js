@@ -1,19 +1,18 @@
-var http = require('http');
-var httpProxy = require('http-proxy');
-var requiresPort = require('requires-port');
+const http = require('http');
+const httpProxy = require('http-proxy');
 
-httpProxy.createServer(function (req, res, proxy) {
-  var hostname = req.headers.host.split(':')[0];
-  var port = requiresPort(req.protocol, 443) ? 443 : 80;
+const proxy = httpProxy.createProxyServer({});
+const port = 8000;
 
-  proxy.proxyRequest(req, res, {
-    host: hostname,
-    port: port,
+http.createServer((req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  proxy.web(req, res, {
+    target: req.url,
     changeOrigin: true,
     headers: {
-      referer: req.headers.host
+      referer: 'https://dimasmaulana99.github.io/'
     }
   });
-}).listen(8000);
-
-console.log('Proxy server listening on port 8000');
+}).listen(port, () => {
+  console.log(`Proxy server listening on port ${port}`);
+});
