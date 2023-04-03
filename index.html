@@ -27,8 +27,7 @@
       });
       var vectorSource = new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: 'https://drive.google.com/uc?export=download&id=1tpeQVJXgvpZmCurC7x_9qWgJYa77wblR',
-        strategy: ol.loadingstrategy.bbox
+        url: 'http://localhost:8000/https://raw.githubusercontent.com/dimasmaulana99/prototype_tourist_webgis/main/wisata_alam.geojson'
       });
       var vectorLayer = new ol.layer.Vector({
         source: vectorSource,
