@@ -27,7 +27,8 @@
       });
       var vectorSource = new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: 'https://drive.google.com/file/d/1tpeQVJXgvpZmCurC7x_9qWgJYa77wblR/view?usp=sharing'
+        url: 'https://drive.google.com/uc?export=download&id=1tpeQVJXgvpZmCurC7x_9qWgJYa77wblR',
+        strategy: ol.loadingstrategy.bbox
       });
       var vectorLayer = new ol.layer.Vector({
         source: vectorSource,
