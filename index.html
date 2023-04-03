@@ -1,1 +1,83 @@
-"Hello World" 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My WebGIS Map</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v6.5.0/css/ol.css" type="text/css">
+    <script src="https://openlayers.org/en/v6.5.0/build/ol.js"></script>
+    <style>
+      #map {
+        width: 100%;
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+    </div>
+    <script type="text/javascript">
+      var popup = new ol.Overlay({
+        element: document.getElementById('popup'),
+        autoPan: true,
+        autoPanAnimation: {
+          duration: 250
+        }
+      });
+      var vectorSource = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: 'https://github.com/dimasmaulana99/prototype_tourist_webgis/raw/main/map.geojson'
+      });
+      var vectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+        style: new ol.style.Style({
+          stroke: new ol.style.Stroke({
+            color: 'blue',
+            width: 2
+          }),
+          fill: new ol.style.Fill({
+            color: 'rgba(0, 0, 255, 0.1)'
+          })
+        })
+      });
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          }),
+          vectorLayer
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([110.4189462, -7.2955647]),
+          zoom: 11
+        })
+      });
+      map.addOverlay(popup);
+      map.on('click', function(e) {
+        var feature = map.forEachFeatureAtPixel(e.pixel, function(feature) {
+          return feature;
+        });
+        if (feature) {
+          var coordinates = feature.getGeometry().getCoordinates();
+          var imageSrc = feature.get('__image_');
+          var content = '<img src="' + imageSrc + '">';
+          popup.setPosition(coordinates);
+          document.getElementById('popup-content').innerHTML = content;
+        } else {
+          popup.setPosition(undefined);
+        }
+      });
+      map.on('pointermove', function(e) {
+        if (e.dragging) {
+          popup.setPosition(undefined);
+          return;
+        }
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.hasFeatureAtPixel(pixel);
+        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+      });
+    </script>
+  </body>
+</html>
