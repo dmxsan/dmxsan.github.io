@@ -1,22 +1,8 @@
 [
   {
     "origin": "https://dimasmaulana99.github.io",
-    "headers": [
-      "Content-Type",
-      "Authorization",
-      "Accept",
-      "Origin",
-      "User-Agent",
-      "DNT",
-      "Cache-Control",
-      "X-Mx-ReqToken",
-      "Keep-Alive",
-      "X-Requested-With",
-      "If-Modified-Since"
-    ],
-    "methods": [
-      "GET"
-    ],
+    "headers": ["*"],
+    "methods": ["GET"],
     "max_age_seconds": 3600
   }
 ]
