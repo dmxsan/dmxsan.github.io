@@ -1,6 +1,6 @@
 [
   {
-    "origin": "*",
+    "origin": "https://dimasmaulana99.github.io",
     "headers": [
       "Content-Type",
       "Authorization",
@@ -15,12 +15,7 @@
       "If-Modified-Since"
     ],
     "methods": [
-      "GET",
-      "PUT",
-      "POST",
-      "PATCH",
-      "DELETE",
-      "OPTIONS"
+      "GET"
     ],
     "max_age_seconds": 3600
   }
