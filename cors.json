@@ -1,0 +1,27 @@
+[
+  {
+    "origin": "*",
+    "headers": [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "Origin",
+      "User-Agent",
+      "DNT",
+      "Cache-Control",
+      "X-Mx-ReqToken",
+      "Keep-Alive",
+      "X-Requested-With",
+      "If-Modified-Since"
+    ],
+    "methods": [
+      "GET",
+      "PUT",
+      "POST",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ],
+    "max_age_seconds": 3600
+  }
+]
