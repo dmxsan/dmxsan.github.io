@@ -1,0 +1,1 @@
+import{_ as o,c as t,a as e,o as a}from"./BVVIem6E.js";const l={},c={class:"blog"};function n(r,s){return a(),t("section",c,s[0]||(s[0]=[e("h2",null,"Latest Articles",-1),e("article",{class:"blog-post"},[e("h3",null,"First Post"),e("p",null,"This is an example blog post overview...")],-1)]))}const _=o(l,[["render",n],["__scopeId","data-v-ea0be90e"]]);export{_ as default};

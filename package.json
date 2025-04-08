@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxi generate --out-dir docs",
+    "generate": "nuxi generate && (if exist dist xcopy /E /I /Y dist\\* docs\\ && rmdir /S /Q dist)",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "deploy": "gh-pages -d docs"

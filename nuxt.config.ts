@@ -1,11 +1,10 @@
-// nuxt.config.ts
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   ssr: false, // disables server-side rendering, making your site a SPA/static site
   devtools: { enabled: true },
   app: {
     head: {
-      title: 'dmxsan - Developer & Innovator',
+      title: 'dmxsan - GIS Developer',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -16,5 +15,14 @@ export default defineNuxtConfig({
         },
       ],
     },
+  },
+  nitro: {
+    output: {
+      dir: './docs'  // Set the output directory to docs
+    },
+    preset: 'static'
+  },
+  experimental: {
+    payloadExtraction: false, // Disable payload extraction to avoid issues with static site generation
   },
 });

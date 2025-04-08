@@ -1,7 +1,7 @@
 <template>
   <section class="hero">
     <div class="hero-content">
-      <h1>Hello, I'm dmxsan!</h1>
+      <h1>Hello, I'm Dimas!</h1>
       <p>Developer | GIS Enthusiast | Open Source Enthusiast</p>
       <NuxtLink to="/projects" class="btn">View My Work</NuxtLink>
       <div class="social">
