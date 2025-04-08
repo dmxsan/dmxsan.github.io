@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "http-proxy": "^1.18.1",
-    "requires-port": "^1.0.0"
-  }
-}

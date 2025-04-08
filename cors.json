@@ -1,8 +1,0 @@
-[
-  {
-    "origin": "https://dimasmaulana99.github.io",
-    "headers": ["*"],
-    "methods": ["GET"],
-    "max_age_seconds": 3600
-  }
-]
