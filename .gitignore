@@ -40,9 +40,3 @@ Thumbs.db
 # Coverage reports (if you run tests with coverage)
 # ────────────────────────────────────────────────────────
 coverage/
-
-# ────────────────────────────────────────────────────────
-# Jekyll override (you likely want this
-# committed in your docs folder if you're disabling Jekyll)
-# ────────────────────────────────────────────────────────
-.nojekyll
