@@ -1,28 +1,48 @@
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
-
+# ────────────────────────────────────────────────────────
 # Node dependencies
-node_modules
+# ────────────────────────────────────────────────────────
+node_modules/
 
+# ────────────────────────────────────────────────────────
+# Nuxt / Build outputs
+# (We commit `docs/` if it's our final static output for GitHub Pages.)
+# ────────────────────────────────────────────────────────
+.nuxt/
+.output/
+.data/
+.nitro/
+.cache/
+dist/
+
+# ────────────────────────────────────────────────────────
 # Logs
-logs
+# ────────────────────────────────────────────────────────
+logs/
 *.log
 
-# Misc
+# ────────────────────────────────────────────────────────
+# OS-specific / Editor / IDE
+# ────────────────────────────────────────────────────────
 .DS_Store
-.fleet
-.idea
+Thumbs.db
+.fleet/
+.idea/
+.vscode/
 
+# ────────────────────────────────────────────────────────
 # Local env files
+# ────────────────────────────────────────────────────────
 .env
 .env.*
 !.env.example
 
-.nojekyll
-.vscode/
+# ────────────────────────────────────────────────────────
+# Coverage reports (if you run tests with coverage)
+# ────────────────────────────────────────────────────────
 coverage/
+
+# ────────────────────────────────────────────────────────
+# Jekyll override (you likely want this
+# committed in your docs folder if you're disabling Jekyll)
+# ────────────────────────────────────────────────────────
+.nojekyll
