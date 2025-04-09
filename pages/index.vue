@@ -5,7 +5,7 @@
       Hey, I’m dmxsan!
     </h1>
     <p class="text-lg md:text-xl max-w-2xl mb-8 text-neutral-300">
-      I’m a [GIS Enthusiast / Developer / Open Source Engineer / etc.].
+      I’m a [GIS & ML Enthusiast / Open Source Engineer].
       Dreaming of building cool hacks and making them come true is where my passion lies.
       Come check out my projects, blog posts, and more!
     </p>

@@ -25,4 +25,7 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: false, // Disable payload extraction to avoid issues with static site generation
   },
+  css: [
+    '@/assets/css/main.css' // Main CSS file for global styles
+  ], 
 });
