@@ -1,82 +1,37 @@
+<!-- pages/index.vue -->
 <template>
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Hello, I'm Dimas!</h1>
-      <p>Developer | GIS Enthusiast | Open Source Enthusiast</p>
-      <NuxtLink to="/projects" class="btn">View My Work</NuxtLink>
-      <div class="social">
-        <!-- Example Social Links -->
-        <a href="https://github.com/dmxsan" target="_blank" rel="noopener">GitHub</a>
-      </div>
+  <section class="w-full h-full flex flex-col items-center justify-center text-center px-6 py-16">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">
+      Hey, I’m dmxsan!
+    </h1>
+    <p class="text-lg md:text-xl max-w-2xl mb-8 text-neutral-300">
+      I’m a [GIS Enthusiast / Developer / Open Source Engineer / etc.].
+      Dreaming of building cool hacks and making them come true is where my passion lies.
+      Come check out my projects, blog posts, and more!
+    </p>
+
+    <!-- Social Links or CTA Buttons -->
+    <div class="flex space-x-4 mt-4">
+      <a
+        href="https://github.com/dmxsan"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline hover:text-neutral-400"
+      >
+        GitHub
+      </a>
     </div>
   </section>
 </template>
 
 <script setup>
-// No script needed for now
+/* No script needed unless you want reactivity or data fetching. */
 </script>
 
 <style scoped>
-/* Hero Section Container */
-.hero {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  background: linear-gradient(135deg, #007acc 0%, #00acc1 100%);
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-}
-
-/* Container for hero content */
-.hero-content {
-  max-width: 800px;
-  width: 100%;
-}
-
-/* Main Heading */
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-/* Description Paragraph */
-.hero p {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-}
-
-/* Button Styling */
-.btn {
-  display: inline-block;
-  background: #fff;
-  color: #007acc;
-  padding: 12px 24px;
-  border-radius: 4px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.btn:hover {
-  background: #e6e6e6;
-}
-
-/* Social Links Container */
-.social {
-  margin-top: 20px;
-}
-
-/* Social Links */
-.social a {
-  margin: 0 10px;
-  color: #fff;
-  text-decoration: underline;
-  transition: color 0.3s ease;
-}
-
-.social a:hover {
-  color: #ddd;
-}
+/* Additional or custom styles go here. For example: */
+/* .hero-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+} */
 </style>
