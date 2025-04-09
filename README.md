@@ -1,75 +1,32 @@
-# Nuxt Minimal Starter
+# dmxsan.github.io
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Welcome to my personal website, built with [Nuxt 3](https://nuxt.com/) and deployed via [GitHub Pages](https://pages.github.com/). This repository serves as both the source for my site (stored in `components/`, `pages/`, `layouts/`, etc.) and the final static output (located in the `docs/` folder) that GitHub Pages uses to serve the live site at [https://dmxsan.github.io](https://dmxsan.github.io).
 
-## Setup
+---
 
-Make sure to install dependencies:
+## Project Overview
 
-```bash
-# npm
-npm install
+- **Framework:** [Nuxt 3](https://nuxt.com/docs/getting-started/introduction)
+- **Deployment:** GitHub Pages (using the `docs` folder on the `main` branch)
+- **Styling:** Custom CSS (you can integrate additional libraries like Tailwind if desired)
 
-# pnpm
-pnpm install
+---
 
-# yarn
-yarn install
+## Local Development
 
-# bun
-bun install
-```
+To run the site locally:
 
-## Development Server
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/dmxsan/dmxsan.github.io
+   cd dmxsan.github.io
+2. **Install Dependencies**
+   ```bash
+   npm install
+3. **Run the Development Server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser to see the site. Any changes you make will hot-reload automatically
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+--- 
