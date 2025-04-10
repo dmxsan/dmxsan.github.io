@@ -5,7 +5,7 @@
       
       <div class="prose prose-invert">
         <p class="text-lg text-neutral-300 mb-6">
-          I'm a GIS and Machine Learning enthusiast based in Tokyo, passionate about building tools 
+          I'm a GIS and Machine Learning enthusiast based in Yogyakarta, Indonesia. Passionate about building tools 
           that make geographic data visualization and analysis more accessible.
         </p>
 
@@ -19,7 +19,7 @@
         <h2 class="text-2xl font-bold mt-12 mb-4">Skills</h2>
         <ul class="list-none grid grid-cols-2 gap-4 mt-4">
           <li class="flex items-center space-x-2">
-            <span class="text-neutral-300">Geographic Information Systems</span>
+            <span class="text-neutral-300">Geographic Information Systems - Remote Sensing</span>
           </li>
           <li class="flex items-center space-x-2">
             <span class="text-neutral-300">Machine Learning</span>

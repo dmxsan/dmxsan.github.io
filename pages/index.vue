@@ -7,7 +7,7 @@
       </h1>
       
       <p class="text-neutral-400 mb-8">
-        GIS & ML Enthusiast / Open Source Engineer based in Tokyo
+        GIS & ML Enthusiast / Open Source Engineer based in Yogyakarta, Indonesia.
       </p>
 
       <section aria-labelledby="current-status">
