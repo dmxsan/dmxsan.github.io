@@ -17,9 +17,9 @@
         </article>
 
         <article class="p-6 rounded-lg bg-neutral-800/50 hover:bg-neutral-800 transition-colors">
-          <h2 class="text-2xl font-bold mb-4">ML for Spatial Analysis</h2>
+          <h2 class="text-2xl font-bold mb-4">U-Net for Flood Mapping using Radar</h2>
           <p class="text-neutral-300 mb-4">
-            Machine learning models for analyzing spatial patterns and making predictions based on geographic data.
+            A deep learning model for flood mapping using U-Net architecture and radar imagery.
           </p>
           <div class="flex flex-wrap gap-2">
             <span class="px-2 py-1 text-sm rounded bg-neutral-700 text-neutral-300">Python</span>

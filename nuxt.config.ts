@@ -6,10 +6,13 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
-      title: 'dmxsan - GIS Developer',
+      title: 'Dimas Maulana Ichsan',
       htmlAttrs: {
         lang: 'en'
       },
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/dmxsan.png' }
+      ],
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -34,10 +37,7 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/main.css' // Main CSS file for global styles
   ], 
-  modules: [
-    '@nuxtjs/tailwindcss',
-    '@nuxt/content'
-  ],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxt/image'],
   content: {
     documentDriven: false,
     navigation: {

@@ -3,7 +3,7 @@
   <main class="px-7 py-32 min-h-screen" role="main" aria-labelledby="page-title">
     <div class="max-w-3xl mx-auto">
       <h1 id="page-title" class="text-4xl font-bold mb-4 font-mono">
-        Dmxsan
+        Dimas Maulana Ichsan
       </h1>
       
       <p class="text-neutral-400 mb-8">
@@ -27,10 +27,10 @@
               GIS
             </span>
             <span role="listitem" class="px-3 py-1 rounded-md bg-neutral-800 text-sm hover:bg-neutral-700 transition-colors">
-              Machine Learning
+              Remote Sensing
             </span>
             <span role="listitem" class="px-3 py-1 rounded-md bg-neutral-800 text-sm hover:bg-neutral-700 transition-colors">
-              Open Source
+              GeoAI
             </span>
           </div>
         </div>
@@ -45,7 +45,7 @@
           </p>
         </div>
       </section>
-
+      <!-- Disable the social links section for now
       <section aria-labelledby="social-section">
         <h2 id="social-section" class="sr-only">Social Links</h2>
         <div class="flex space-x-4 mb-12" role="list">
@@ -60,12 +60,12 @@
           </a>
         </div>
       </section>
-
+      -->
       <section aria-labelledby="contact-section">
         <h2 id="contact-section" class="sr-only">Contact</h2>
         <div class="mt-16">
           <a
-            href="mailto:your-email@example.com"
+            href="mailto:dimasmaulanaichsan@gmail.com"
             class="inline-block px-4 py-2 rounded-lg bg-neutral-800 text-neutral-300 hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label="Send me an email to collaborate"
           >

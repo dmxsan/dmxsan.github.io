@@ -1,7 +1,7 @@
 <template>
   <main class="px-7 py-32">
     <div class="max-w-3xl mx-auto">
-      <h1 class="text-3xl font-bold mb-8 font-mono">
+      <h1 class="text-4xl font-bold mb-8">
         Blog
       </h1>
       
@@ -39,7 +39,10 @@
 <script setup>
 // We're using composables directly without await since we're in the setup function
 const { data: posts } = await useAsyncData('blog-posts', () => 
-  queryContent('blog').find()
+  queryContent('blog')
+    .sort({ date: -1 }) // Sort by date in descending order
+    .where({ _partial: false }) // Exclude partial content
+    .find()
 )
 
 const handleClick = (path) => {

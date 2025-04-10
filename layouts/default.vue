@@ -3,12 +3,9 @@
   <div class="min-h-screen bg-neutral-900 text-neutral-200 flex flex-col">
     <ProgressBar />
     <Header />
-    
-    <!-- Main Content -->
     <main class="flex-1">
       <NuxtPage />
     </main>
-
     <Footer />
   </div>
 </template>
