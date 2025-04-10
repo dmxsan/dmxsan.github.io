@@ -19,7 +19,7 @@
         <h2 class="text-2xl font-bold mt-12 mb-4">Skills</h2>
         <ul class="list-none grid grid-cols-2 gap-4 mt-4">
           <li class="flex items-center space-x-2">
-            <span class="text-neutral-300">Geographic Information Systems - Remote Sensing</span>
+            <span class="text-neutral-300">Remote Sensing - GIS</span>
           </li>
           <li class="flex items-center space-x-2">
             <span class="text-neutral-300">Machine Learning</span>
