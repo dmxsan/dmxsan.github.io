@@ -4,18 +4,18 @@
       <div v-if="pending" class="text-neutral-400">Loading post...</div>
       <div v-else-if="error" class="text-red-400">Error loading blog post</div>
       <template v-else>
-        <article v-if="data" class="prose prose-invert prose-lg max-w-none">
-          <h1 class="text-4xl font-bold mb-4">{{ data.title }}</h1>
+        <article v-if="post" class="prose prose-invert prose-lg max-w-none">
+          <h1 class="text-4xl font-bold mb-4">{{ post.title }}</h1>
           <div class="flex items-center gap-4 mt-4 mb-8 text-sm text-neutral-400">
-            <time>{{ formatDate(data.date) }}</time>
+            <time>{{ formatDate(post.date) }}</time>
             <div class="flex gap-2">
-              <span v-for="tag in data.tags" :key="tag" 
+              <span v-for="tag in post.tags" :key="tag" 
                 class="px-2 py-0.5 rounded-full bg-neutral-800 text-xs">
                 {{ tag }}
               </span>
             </div>
           </div>
-          <ContentRenderer :value="data" />
+          <ContentRenderer :value="post" />
         </article>
         <div v-else class="text-center py-16">
           <h1 class="text-2xl font-bold mb-4">Post not found</h1>
@@ -32,7 +32,7 @@
       <div class="mt-16 pt-8 border-t border-neutral-800">
         <NuxtLink 
           to="/blog"
-          class="text-neutral-400 hover:text-neutral-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-3 py-2"
+          class="text-neutral-400 hover:text-neutral-200 transition-colors focus:outline-none rounded px-3 py-2"
         >
           ← Back to Blog
         </NuxtLink>
@@ -44,11 +44,13 @@
 <script setup>
 const route = useRoute()
 
-const { data, pending, error } = await useAsyncData(`blog-${route.params.slug}`, () =>
-  queryContent('blog')
-    .where({ _path: `/blog/${route.params.slug}` })
-    .findOne()
+const { data: post, pending, error } = await useAsyncData(
+  `blog-${route.params.slug}`,
+  () => queryContent('/blog', route.params.slug).findOne()
 )
+
+console.log('Fetching blog post:', route.params.slug)
+console.log('Found post:', post.value)
 
 const formatDate = (date) => {
   if (!date) return ''
@@ -60,13 +62,13 @@ const formatDate = (date) => {
 }
 
 useHead(() => ({
-  title: data.value?.title 
-    ? `${data.value.title} - Blog - Dmxsan` 
+  title: post.value?.title 
+    ? `${post.value.title} - Blog - Dmxsan` 
     : 'Blog - Dmxsan',
   meta: [
     {
       name: 'description',
-      content: data.value?.description || 'Blog post about GIS development and machine learning'
+      content: post.value?.description || 'Blog post about GIS development and machine learning'
     }
   ]
 }))

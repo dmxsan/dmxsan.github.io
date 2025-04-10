@@ -1,9 +1,8 @@
 ---
-title: 'Building Modern GIS Applications with Vue.js'
-date: '2025-04-10'
-description: 'Exploring the integration of modern web technologies with geographic information systems.'
+title: Building Modern GIS Applications with Vue.js
+date: 2025-04-10
+description: Exploring the integration of modern web technologies with geographic information systems.
 tags: ['GIS', 'Vue.js', 'Web Development']
-slug: 'building-modern-gis-applications'
 ---
 
 # Building Modern GIS Applications with Vue.js
