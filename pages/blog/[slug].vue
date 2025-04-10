@@ -42,6 +42,8 @@
 </template>
 
 <script setup>
+import { queryContent } from '#imports'
+
 const route = useRoute()
 
 const { data: post, pending, error } = await useAsyncData(

@@ -34,6 +34,9 @@
 </template>
 
 <script setup>
+// Import queryContent from @nuxt/content
+import { queryContent } from '#imports'
+
 // Basic content query with debug logging
 const { pending, error, data: posts } = await useAsyncData(
   'blog-posts',

@@ -8,6 +8,8 @@
 </template>
 
 <script setup>
+import { queryContent } from '#imports'
+
 const { data: debug } = await useAsyncData('debug', async () => {
   const content = await queryContent().find()
   return JSON.stringify(content, null, 2)
