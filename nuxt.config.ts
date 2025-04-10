@@ -3,7 +3,13 @@ import { resolve } from 'path';
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   ssr: true, // enables server-side rendering
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true
+    }
+  },
   app: {
     head: {
       title: 'Dimas Maulana Ichsan',
@@ -40,13 +46,6 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxt/image'],
   content: {
     documentDriven: false,
-    navigation: {
-      fields: ['title', 'description', '_path', 'date', 'tags']
-    },
-    experimental: {
-      clientDB: true,
-      stripQueryParameters: false
-    },
     markdown: {
       anchorLinks: false,
       toc: {
