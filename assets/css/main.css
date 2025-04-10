@@ -1,3 +1,64 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-dark text-neutral-300;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Keyboard navigation styles */
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+.js-focus-visible .focus-visible {
+  @apply ring-2 ring-blue-500 ring-offset-1 ring-offset-dark;
+}
+
+/* Ensure skip links are visible when focused */
+.sr-only.focus-visible {
+  @apply not-sr-only fixed top-4 left-4 bg-blue-500 text-white px-4 py-2 rounded-lg z-50;
+}
+
+/* Custom selection color */
+::selection {
+  @apply bg-neutral-700 text-neutral-200;
+}
+
+/* Smooth scrolling for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better button and link focus states */
+a, button {
+  @apply transition-colors duration-200 outline-none;
+}
+
+a:focus-visible, button:focus-visible {
+  @apply ring-2 ring-blue-500 ring-offset-1 ring-offset-dark rounded;
+}
+
+/* Improve accessibility of interactive elements */
+[role="button"],
+[role="tab"],
+[role="link"] {
+  cursor: pointer;
+}
+
+/* Hide focus rings when using mouse, show when using keyboard */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
