@@ -2,7 +2,7 @@ import { resolve } from 'path';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
-  ssr: false, // disables server-side rendering, making your site a SPA/static site
+  ssr: true, // enables server-side rendering
   devtools: { enabled: true },
   app: {
     head: {
