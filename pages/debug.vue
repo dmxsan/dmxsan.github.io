@@ -5,8 +5,8 @@
       <div v-if="pending" class="text-neutral-400">Loading posts...</div>
       <div v-else-if="error">{{ error }}</div>
       <div v-else class="space-y-4">
-        <div v-for="post in posts" :key="post._path">
-          <strong>{{ post.title }}</strong> - {{ post.description }}
+        <div v-for="post in posts" :key="post?._path">
+          <strong>{{ post?.title || 'Untitled' }}</strong> - {{ post?.description || 'No description available' }}
         </div>
       </div>
     </div>
@@ -14,10 +14,8 @@
 </template>
 
 <script setup>
-const { getBlogPosts } = useContent()
-
-const { data: posts, pending, error } = await useAsyncData(
+const { pending, data: posts, error } = await useAsyncData(
   'debug-posts',
-  () => getBlogPosts()
+  () => queryContent('blog').find()
 )
 </script>
