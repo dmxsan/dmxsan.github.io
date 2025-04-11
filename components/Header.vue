@@ -69,10 +69,10 @@
         </svg>
       </button>
 
-      <!-- Mobile menu -->
+      <!-- Mobile menu (simple, no transition) -->
       <div 
         v-if="isMenuOpen"
-        class="md:hidden fixed inset-x-0 top-[73px] p-4 bg-neutral-900/95 backdrop-blur"
+        class="md:hidden fixed inset-x-0 top-[73px] p-4 bg-neutral-900/95 backdrop-blur text-right"
       >
         <ul class="flex flex-col space-y-4">
           <li v-for="item in navItems" :key="item.path">
