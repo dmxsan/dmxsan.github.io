@@ -7,55 +7,41 @@
       <div v-else-if="error">{{ error.message }}</div>
       <div v-else-if="!posts || posts.length === 0" class="text-neutral-400">No blog posts found.</div>
       <div v-else class="space-y-8">
-        <article v-for="post in posts" :key="post._path" 
-          class="group cursor-pointer p-4 -mx-4 rounded-lg hover:bg-neutral-800/30 transition-colors"
-          tabindex="0"
-          @click="handleClick(post._path)"
-          @keydown.enter="handleClick(post._path)"
+        <NuxtLink
+          v-for="post in posts"
+          :key="post._path"
+          :to="`/blog/${post._path.split('/').pop()}`"
+          class="block group p-4 -mx-4 rounded-lg hover:bg-neutral-800/30 transition-colors"
         >
-          <div class="space-y-2">
-            <div class="flex flex-wrap items-center gap-2 text-sm text-neutral-400">
-              <time>{{ formatDate(post.date) }}</time>
-              <div class="flex flex-wrap gap-2">
-                <span v-for="tag in post.tags" :key="tag"
-                  class="px-2 py-0.5 rounded-full bg-neutral-800 text-xs"
-                >{{ tag }}</span>
+          <article>
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2 text-sm text-neutral-400">
+                <time>{{ formatDate(post.date) }}</time>
+                <div class="flex flex-wrap gap-2">
+                  <span v-for="tag in post.tags" :key="tag"
+                    class="px-2 py-0.5 rounded-full bg-neutral-800 text-xs"
+                  >{{ tag }}</span>
+                </div>
               </div>
+              <h2 class="text-xl font-semibold group-hover:text-neutral-200 transition-colors">
+                {{ post.title }}
+              </h2>
+              <p class="text-neutral-400">{{ post.description }}</p>
             </div>
-            <h2 class="text-xl font-semibold group-hover:text-neutral-200 transition-colors">
-              {{ post.title }}
-            </h2>
-            <p class="text-neutral-400">{{ post.description }}</p>
-          </div>
-        </article>
+          </article>
+        </NuxtLink>
       </div>
     </div>
   </main>
 </template>
 
 <script setup>
-// Import queryContent from @nuxt/content
-import { queryContent } from '#imports'
-
-// Basic content query with debug logging
-const { pending, error, data: posts } = await useAsyncData(
+const { pending, data: posts } = await useAsyncData(
   'blog-posts',
-  () => {
-    console.log('Fetching blog posts...')
-    return queryContent('/blog').find()
-  },
-  {
-    transform: (posts) => {
-      console.log('Transform - Found posts:', posts)
-      return posts
-    }
-  }
+  () => queryContent('blog').sort({ date: -1 }).find()
 )
 
-const handleClick = (path) => {
-  const slug = path.split('/').pop().replace('.md', '')
-  navigateTo(`/blog/${slug}`)
-}
+const error = ref(null)
 
 useHead({
   title: 'Blog - Dmxsan',
@@ -75,4 +61,9 @@ const formatDate = (date) => {
     day: 'numeric'
   })
 }
+
+// Clear Nuxt's page cache when component is unmounted
+onBeforeUnmount(() => {
+  useState('blog-posts').value = null
+})
 </script>

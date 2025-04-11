@@ -1,17 +1,23 @@
 <template>
   <main class="px-7 py-32">
     <div class="max-w-3xl mx-auto">
-      <h1 class="text-4xl font-bold mb-8">Debug Content</h1>
-      <pre class="bg-neutral-800 p-4 rounded overflow-auto">{{ debug }}</pre>
+      <h1 class="text-4xl font-bold mb-8">Debug Page</h1>
+      <div v-if="pending" class="text-neutral-400">Loading posts...</div>
+      <div v-else-if="error">{{ error }}</div>
+      <div v-else class="space-y-4">
+        <div v-for="post in posts" :key="post._path">
+          <strong>{{ post.title }}</strong> - {{ post.description }}
+        </div>
+      </div>
     </div>
   </main>
 </template>
 
 <script setup>
-import { queryContent } from '#imports'
+const { getBlogPosts } = useContent()
 
-const { data: debug } = await useAsyncData('debug', async () => {
-  const content = await queryContent().find()
-  return JSON.stringify(content, null, 2)
-})
+const { data: posts, pending, error } = await useAsyncData(
+  'debug-posts',
+  () => getBlogPosts()
+)
 </script>
