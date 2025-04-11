@@ -1,5 +1,5 @@
 export default defineContentConfig({
-  documentDriven: false,
+  documentDriven: true,
   highlight: {
     theme: 'github-dark'
   },
