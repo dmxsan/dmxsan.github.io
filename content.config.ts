@@ -3,13 +3,13 @@ export default defineContentConfig({
   highlight: {
     theme: 'github-dark'
   },
-  navigation: true,
-  contentHead: true,
   markdown: {
-    mdc: true,
     toc: {
       depth: 3,
       searchDepth: 3
     }
+  },
+  navigation: {
+    fields: ['title', 'description', 'date', 'tags']
   }
 })

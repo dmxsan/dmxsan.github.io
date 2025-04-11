@@ -1,11 +1,8 @@
-import { resolve } from 'path';
-
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
-  ssr: true, // enables server-side rendering
+  ssr: true,
   devtools: {
     enabled: true,
-
     timeline: {
       enabled: true
     }
@@ -23,42 +20,43 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
-          hid: 'description',
           name: 'description',
-          content: 'Personal branding site for dmxsan featuring projects, articles, and more.',
+          content: 'Personal branding site for dmxsan featuring projects, articles, and more.'
         },
         { name: 'format-detection', content: 'telephone=no' }
-      ],
-    },
+      ]
+    }
   },
   nitro: {
     output: {
-      dir: './docs'  // Set the output directory to docs
+      dir: './docs'
     },
-    preset: 'static'
+    preset: 'static',
+    prerender: {
+      routes: ['/blog']
+    }
   },
   experimental: {
-    payloadExtraction: false, // Disable payload extraction to avoid issues with static site generation
+    payloadExtraction: false
   },
   css: [
-    '@/assets/css/main.css' // Main CSS file for global styles
-  ], 
+    '@/assets/css/main.css'
+  ],
   modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxt/image'],
   content: {
-    documentDriven: false,
-    markdown: {
-      anchorLinks: false,
-      toc: {
-        depth: 3,
-        searchDepth: 3
-      }
+    navigation: {
+      fields: ['title', 'description', 'date', 'tags']
     }
+  },
+  components: {
+    global: true,
+    dirs: ['~/components']
   },
   postcss: {
     plugins: {
       'tailwindcss/nesting': {},
       tailwindcss: {},
-      autoprefixer: {},
+      autoprefixer: {}
     }
   }
-});
+})
