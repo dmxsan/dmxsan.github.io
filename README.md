@@ -8,7 +8,7 @@ Welcome to my personal website, built with [Nuxt 3](https://nuxt.com/) and deplo
 
 - **Framework:** [Nuxt 3](https://nuxt.com/docs/getting-started/introduction)
 - **Deployment:** GitHub Pages (using the `docs` folder on the `main` branch)
-- **Styling:** Custom CSS (you can integrate additional libraries like Tailwind if desired)
+- **Styling:** Custom CSS (you can integrate additional libraries like Tailwin)
 
 ---
 
