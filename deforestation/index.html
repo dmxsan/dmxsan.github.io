@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Automatic Deforestation Detection | XLab by dmxsan.dev</title>
+    <meta
+      name="description"
+      content="Prototype U-Net model trained on high-resolution satellite imagery to detect deforestation. Includes a 44-epoch training curve inspector and an adjustable confidence cutoff preview."
+    />
+    <meta name="author" content="Dimas Maulana Ichsan" />
+    <meta name="theme-color" content="#F5F6F2" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../favicon.svg" />
+    <script>
+      (() => {
+        try {
+          const s = localStorage.getItem('dmxsan-theme');
+          const t =
+            s === 'dark' || s === 'light'
+              ? s
+              : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.dataset.theme = t;
+          const m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', t === 'dark' ? '#0F1411' : '#F5F6F2');
+        } catch {}
+      })();
+    </script>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="topbar">
+      <div class="brand-lockup">
+        <a href="../" class="brand-mark">
+          <svg width="18" height="18" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="10" height="10" rx="1.8" fill="var(--nir)" />
+            <rect x="27" y="2" width="10" height="10" rx="1.8" fill="var(--line)" />
+            <rect x="52" y="2" width="10" height="10" rx="1.8" fill="var(--nir)" />
+            <rect x="14.5" y="14.5" width="10" height="10" rx="1.8" fill="var(--nir)" />
+            <rect x="39.5" y="14.5" width="10" height="10" rx="1.8" fill="var(--nir)" />
+            <rect x="2" y="27" width="10" height="10" rx="1.8" fill="var(--line)" />
+            <rect x="27" y="27" width="10" height="10" rx="1.8" fill="var(--nir)" />
+            <rect x="52" y="27" width="10" height="10" rx="1.8" fill="var(--line)" />
+            <rect x="14.5" y="39.5" width="10" height="10" rx="1.8" fill="var(--nir)" />
+            <rect x="39.5" y="39.5" width="10" height="10" rx="1.8" fill="var(--nir)" />
+            <rect x="2" y="52" width="10" height="10" rx="1.8" fill="var(--nir)" />
+            <rect x="27" y="52" width="10" height="10" rx="1.8" fill="var(--line)" />
+            <rect x="52" y="52" width="10" height="10" rx="1.8" fill="var(--nir)" />
+          </svg>
+          <span><span class="brand-x">X</span>Lab</span>
+        </a>
+        <span class="brand-by">
+          by <a href="https://dmxsan.dev" rel="noopener noreferrer">dmxsan.dev</a>
+        </span>
+      </div>
+
+      <div class="top-right">
+        <a
+          href="https://github.com/dmxsan"
+          class="top-nav-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub ↗
+        </a>
+        <button
+          type="button"
+          class="theme-toggle"
+          data-theme-toggle
+          data-light-label="Light EO"
+          data-dark-label="Dark Forest"
+          aria-pressed="false"
+          aria-label="Switch palette to Dark Forest"
+          title="Switch palette to Dark Forest"
+        >
+          <svg
+            class="theme-toggle-icon only-light"
+            width="14"
+            height="14"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="3" />
+            <path d="M8 1.5v1.3M8 13.2v1.3M1.5 8h1.3M13.2 8h1.3M3.4 3.4l.9.9M11.7 11.7l.9.9M12.6 3.4l-.9.9M4.3 11.7l-.9.9" />
+          </svg>
+          <svg
+            class="theme-toggle-icon only-dark"
+            width="14"
+            height="14"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M13.4 9.7A5.5 5.5 0 0 1 6.3 2.6a5.5 5.5 0 1 0 7.1 7.1Z" />
+          </svg>
+          <span class="theme-toggle-labels">
+            <span class="only-light">Light EO</span>
+            <span class="only-dark">Dark Forest</span>
+          </span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content" class="bench" tabindex="-1">
+      <div class="crumb-row">
+        <a href="../" class="back-link">← All experiments</a>
+        <span class="status-badge"><span class="status-dot" aria-hidden="true"></span>PROTOTYPE · IN PROGRESS</span>
+      </div>
+
+      <div class="head-row">
+        <div>
+          <h1 class="page-h1">Automatic Deforestation Detection</h1>
+          <p class="page-sub">
+            Prototype U-Net model trained on high-resolution satellite imagery to detect
+            deforestation. Includes a 44-epoch training curve inspector and an adjustable confidence
+            cutoff preview.
+          </p>
+        </div>
+
+        <div class="head-actions">
+          <a
+            href="https://github.com/dmxsan/automatic-deforestation-detection/blob/main/UNet-Deforestation.ipynb"
+            class="btn-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Notebook ↗
+          </a>
+          <a
+            href="https://github.com/dmxsan/automatic-deforestation-detection"
+            class="btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub ↗
+          </a>
+        </div>
+      </div>
+
+      <div class="lab-grid">
+        <section class="instrument" aria-label="Threshold preview">
+          <div class="inst-head">
+            <span class="inst-title">Threshold Preview</span>
+            <span class="inst-sub">128x128 tile</span>
+          </div>
+
+          <div class="canvas-frame">
+            <canvas id="tile-canvas" width="128" height="128"></canvas>
+            <span class="canvas-tag" id="canvas-tag">DEMO FIELD · p &gt; 0.90</span>
+          </div>
+
+          <div class="tile-legend">
+            <span class="leg-item"><span class="leg-sw leg-sw-ndvi"></span>Non-deforestation</span>
+            <span class="leg-item"><span class="leg-sw leg-sw-nir"></span>Deforestation</span>
+          </div>
+
+          <div class="seg-bar full" role="group" aria-label="Preview display mode">
+            <button type="button" data-mode="mask" aria-pressed="true">Mask</button>
+            <button type="button" data-mode="prob" aria-pressed="false">Prob</button>
+            <button type="button" data-mode="edge" aria-pressed="false">Edge</button>
+          </div>
+
+          <div class="ctrl-row">
+            <div class="ctrl-label">
+              <span>Confidence cutoff</span>
+              <strong id="thresh-val">0.90</strong>
+            </div>
+            <input
+              type="range"
+              id="thresh-slider"
+              min="0.10"
+              max="0.95"
+              step="0.05"
+              value="0.90"
+              aria-label="Confidence cutoff"
+            />
+          </div>
+
+          <div class="preset-row" role="group" aria-label="Confidence cutoff presets">
+            <button type="button" class="btn-chip" data-thresh="0.50" aria-pressed="false">0.50</button>
+            <button type="button" class="btn-chip" data-thresh="0.75" aria-pressed="false">0.75</button>
+            <button type="button" class="btn-chip" data-thresh="0.90" aria-pressed="true">0.90 notebook</button>
+          </div>
+
+          <div class="readout-line">
+            <span>Deforestation area</span>
+            <strong id="area-pct">0.0%</strong>
+          </div>
+
+          <div class="file-actions">
+            <input type="file" id="png-input" accept="image/png,image/*" hidden />
+            <button type="button" id="load-png-btn" class="btn-secondary">Load local PNG</button>
+            <button type="button" id="reset-demo-btn" class="btn-secondary" hidden>Reset demo</button>
+            <button type="button" id="export-mask-btn" class="btn-secondary">Export mask PNG</button>
+          </div>
+        </section>
+
+        <section class="instrument" aria-label="Training run inspector">
+          <div class="inst-head">
+            <span class="inst-title">Training Run (44 Epochs)</span>
+            <div class="seg-bar" role="group" aria-label="Metric">
+              <button type="button" data-metric="iou" aria-pressed="true">IoU</button>
+              <button type="button" data-metric="loss" aria-pressed="false">Loss</button>
+              <button type="button" data-metric="acc" aria-pressed="false">Accuracy</button>
+              <button type="button" data-metric="pr" aria-pressed="false">P / R</button>
+            </div>
+          </div>
+
+          <div class="chart-box">
+            <svg
+              id="curve-svg"
+              viewBox="0 0 420 170"
+              preserveAspectRatio="none"
+              role="img"
+              aria-label="44-epoch training and validation curve"
+            ></svg>
+          </div>
+
+          <div class="curve-legend">
+            <div class="leg-pair">
+              <span class="leg-item"><span class="leg-line leg-line-ndvi"></span><span id="leg-a">Train</span></span>
+              <span class="leg-item"><span class="leg-line leg-line-sar"></span><span id="leg-b">Validation</span></span>
+            </div>
+            <span id="lr-note">LR: 1e-6 (EarlyStop)</span>
+          </div>
+
+          <div class="ctrl-row">
+            <div class="ctrl-label">
+              <span>Inspect epoch</span>
+              <strong id="ep-label">Epoch 44 / 44</strong>
+            </div>
+            <input
+              type="range"
+              id="ep-slider"
+              min="1"
+              max="44"
+              step="1"
+              value="44"
+              aria-label="Inspect training epoch"
+            />
+          </div>
+
+          <div class="preset-row" role="group" aria-label="Key training checkpoints">
+            <button type="button" class="btn-chip" data-ep="17" aria-pressed="false">Ep 17 (LR 1e-4)</button>
+            <button type="button" class="btn-chip" data-ep="34" aria-pressed="false">Ep 34 (Best val loss)</button>
+            <button type="button" class="btn-chip" data-ep="44" aria-pressed="true">Ep 44 (EarlyStop)</button>
+          </div>
+
+          <div class="ep-readout" id="ep-readout">
+            <span>Train: <strong>0.844</strong></span>
+            <span>Val: <strong>0.731</strong></span>
+            <span>Val P / R: <strong>0.93 / 0.89</strong></span>
+            <span>Test (42 chips): <strong>0.460 IoU · 99.1% rec</strong></span>
+          </div>
+        </section>
+      </div>
+
+      <section class="open-work" aria-label="Open work">
+        <h2>Open Work</h2>
+        <ul class="check-list">
+          <li>
+            <span class="check-box">[ ]</span>
+            <span>Export sample 128x128 test imagery and model probability outputs into <code>examples/</code> to replace the synthetic preview field.</span>
+          </li>
+          <li>
+            <span class="check-box">[ ]</span>
+            <span>Evaluate quantized ONNX export for client-side inference.</span>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>XLab by dmxsan.dev</span>
+      <div class="foot-links">
+        <a href="https://dmxsan.dev" rel="noopener noreferrer">dmxsan.dev</a>
+        <a href="https://github.com/dmxsan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="../assets/theme.js"></script>
+    <script src="./bench.js"></script>
+  </body>
+</html>

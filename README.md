@@ -1,32 +1,27 @@
-# dmxsan.github.io
+# XLab by dmxsan.dev
 
-Welcome to my personal website, built with [Nuxt 3](https://nuxt.com/) and deployed via [GitHub Pages](https://pages.github.com/). This repository serves as both the source for my site (stored in `components/`, `pages/`, `layouts/`, etc.) and the final static output (located in the `docs/` folder) that GitHub Pages uses to serve the live site at [https://dmxsan.github.io](https://dmxsan.github.io).
+An open geospatial lab by [dmxsan.dev](https://dmxsan.dev) for in-progress experiments, spatial models, and interactive demos.
 
----
+## Structure
 
-## Project Overview
+- `index.html`: Root index of experiments and latest updates
+- `deforestation/`: Automatic Deforestation Detection prototype (44-epoch training curve inspector and confidence cutoff preview)
+- `assets/styles.css`: Shared Light EO and Dark Forest CSS tokens and layout styles
+- `assets/theme.js`: Theme toggle and `dmxsan-theme` persistence synced with `dmxsan.dev`
+- `favicon.svg`: 5x5 NIR X mark
+- `404.html`: Fallback page for retired or unknown routes
 
-- **Framework:** [Nuxt 3](https://nuxt.com/docs/getting-started/introduction)
-- **Deployment:** GitHub Pages (using the `docs` folder on the `main` branch)
-- **Styling:** Custom CSS (you can integrate additional libraries like Tailwin)
+## Local Preview
 
----
+Serve static files directly from the repository root with no build step:
 
-## Local Development
+```bash
+python3 -m http.server 8000
+```
 
-To run the site locally:
+Open `http://localhost:8000` in a browser.
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/dmxsan/dmxsan.github.io
-   cd dmxsan.github.io
-2. **Install Dependencies**
-   ```bash
-   npm install
-3. **Run the Development Server**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser to see the site. Any changes you make will hot-reload automatically
+## Deployment & Subpaths
 
---- 
+- Deployed from `main` (`/`) via GitHub Pages at `https://dmxsan.github.io/`.
+- Per-repository GitHub Pages sites under `dmxsan/<repo>` resolve cleanly as sibling subpaths (`/<repo>/`).

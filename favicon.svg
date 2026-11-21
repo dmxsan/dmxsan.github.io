@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <style>
+    .x { fill: #9E3B4B; }
+    .t { fill: rgba(20, 24, 26, 0.16); }
+    @media (prefers-color-scheme: dark) {
+      .x { fill: #E2727D; }
+      .t { fill: rgba(236, 240, 234, 0.16); }
+    }
+  </style>
+  <rect class="x" x="2" y="2" width="10" height="10" rx="1.8" />
+  <rect class="t" x="27" y="2" width="10" height="10" rx="1.8" />
+  <rect class="x" x="52" y="2" width="10" height="10" rx="1.8" />
+  <rect class="x" x="14.5" y="14.5" width="10" height="10" rx="1.8" />
+  <rect class="x" x="39.5" y="14.5" width="10" height="10" rx="1.8" />
+  <rect class="t" x="2" y="27" width="10" height="10" rx="1.8" />
+  <rect class="x" x="27" y="27" width="10" height="10" rx="1.8" />
+  <rect class="t" x="52" y="27" width="10" height="10" rx="1.8" />
+  <rect class="x" x="14.5" y="39.5" width="10" height="10" rx="1.8" />
+  <rect class="x" x="39.5" y="39.5" width="10" height="10" rx="1.8" />
+  <rect class="x" x="2" y="52" width="10" height="10" rx="1.8" />
+  <rect class="t" x="27" y="52" width="10" height="10" rx="1.8" />
+  <rect class="x" x="52" y="52" width="10" height="10" rx="1.8" />
+</svg>
