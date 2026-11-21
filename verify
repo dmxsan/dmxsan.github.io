@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${ROOT_DIR}"
+
+echo "==> [1/2] JavaScript syntax check"
+while IFS= read -r jsfile; do
+  node --check "${jsfile}"
+done < <(find . -path ./.git -prune -o \( -name '*.js' -o -name '*.mjs' \) -type f -print | sort)
+
+echo "==> [2/2] Static site, design tokens, SEO, raster & contract audit"
+node scripts/verify-site.mjs
+
+echo "==> ALL VERIFICATION GATES PASSED"

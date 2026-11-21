@@ -21,6 +21,14 @@ python3 -m http.server 8000
 
 Open `http://localhost:8000` in a browser.
 
+## Verification
+
+Run the zero-dependency static verification suite locally (Node.js 22+):
+
+```bash
+./verify
+```
+
 ## Deployment & Subpaths
 
 - Deployed from `main` (`/`) via GitHub Pages at `https://lab.dmxsan.dev/` (`https://dmxsan.github.io/` redirects here).
