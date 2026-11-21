@@ -18,6 +18,6 @@
 
 ## 3. Repository Structure & GitHub Pages Rules
 
-- This repository serves static files directly from `/` (`main` branch) at `https://dmxsan.github.io/` (and future `https://lab.dmxsan.dev/`).
+- This repository serves static files directly from `/` (`main` branch) at `https://lab.dmxsan.dev/` (with `https://dmxsan.github.io/` redirecting here).
 - Do not break per-repo GitHub Pages subpaths (`/<repo>/`). Keep links on `/` relative (`./...`), and keep 404 assets root-absolute (`/assets/...`).
 - Keep `.nojekyll` committed at the repository root.

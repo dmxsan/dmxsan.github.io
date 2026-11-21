@@ -5,7 +5,7 @@ An open geospatial lab accompanying the [dmxsan.dev](https://dmxsan.dev) portfol
 ## Structure
 
 - `index.html`: Root index of experiments and latest updates
-- [`deforestation/`](https://dmxsan.github.io/deforestation/): Automatic Deforestation Detection prototype (44-epoch training curve inspector and confidence cutoff preview)
+- [`deforestation/`](https://lab.dmxsan.dev/deforestation/): Automatic Deforestation Detection prototype (44-epoch training curve inspector and confidence cutoff preview)
 - `assets/styles.css`: Shared Light EO and Dark Forest CSS tokens and layout styles
 - `assets/theme.js`: Theme toggle using the same `dmxsan-theme` storage key convention as `dmxsan.dev`
 - `favicon.svg`: 5x5 NIR X mark
@@ -23,5 +23,5 @@ Open `http://localhost:8000` in a browser.
 
 ## Deployment & Subpaths
 
-- Deployed from `main` (`/`) via GitHub Pages at `https://dmxsan.github.io/`.
+- Deployed from `main` (`/`) via GitHub Pages at `https://lab.dmxsan.dev/` (`https://dmxsan.github.io/` redirects here).
 - Per-repository GitHub Pages sites under `dmxsan/<repo>` resolve cleanly as sibling subpaths (`/<repo>/`).
