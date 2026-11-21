@@ -6,7 +6,7 @@
     <title>Automatic Deforestation Detection | XLab by dmxsan.dev</title>
     <meta
       name="description"
-      content="Prototype U-Net model trained on high-resolution satellite imagery to detect deforestation. Includes a 44-epoch training curve inspector and an adjustable confidence cutoff preview."
+      content="Prototype U-Net for binary deforestation segmentation on satellite imagery, with a 44-epoch training inspector and confidence cutoff preview."
     />
     <meta name="author" content="Dimas Maulana Ichsan" />
     <meta name="theme-color" content="#F5F6F2" />
@@ -53,7 +53,7 @@
           <span><span class="brand-x">X</span>Lab</span>
         </a>
         <span class="brand-by">
-          by <a href="https://dmxsan.dev" rel="noopener noreferrer">dmxsan.dev</a>
+          by <a href="https://dmxsan.dev">dmxsan.dev</a>
         </span>
       </div>
 
@@ -73,7 +73,7 @@
           data-light-label="Light EO"
           data-dark-label="Dark Forest"
           aria-pressed="false"
-          aria-label="Switch palette to Dark Forest"
+          aria-label="Dark Forest palette"
           title="Switch palette to Dark Forest"
         >
           <svg
@@ -144,7 +144,7 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            GitHub ↗
+            Repository ↗
           </a>
         </div>
       </div>
@@ -157,13 +157,25 @@
           </div>
 
           <div class="canvas-frame">
-            <canvas id="tile-canvas" width="128" height="128"></canvas>
-            <span class="canvas-tag" id="canvas-tag">DEMO FIELD · p &gt; 0.90</span>
+            <canvas
+              id="tile-canvas"
+              width="128"
+              height="128"
+              role="img"
+              aria-label="128x128 synthetic deforestation probability preview"
+            ></canvas>
+            <span class="canvas-tag" id="canvas-tag">SYNTHETIC FIELD · p &gt;= 0.90</span>
           </div>
 
-          <div class="tile-legend">
+          <div id="legend-binary" class="tile-legend">
             <span class="leg-item"><span class="leg-sw leg-sw-ndvi"></span>Non-deforestation</span>
             <span class="leg-item"><span class="leg-sw leg-sw-nir"></span>Deforestation</span>
+          </div>
+
+          <div id="legend-prob" class="tile-legend" hidden>
+            <span class="leg-item"><span class="leg-sw leg-sw-ndvi"></span>0.0 Low</span>
+            <span class="leg-item"><span class="leg-sw leg-sw-amber"></span>0.5 Mid</span>
+            <span class="leg-item"><span class="leg-sw leg-sw-nir"></span>1.0 High</span>
           </div>
 
           <div class="seg-bar full" role="group" aria-label="Preview display mode">
@@ -174,7 +186,7 @@
 
           <div class="ctrl-row">
             <div class="ctrl-label">
-              <span>Confidence cutoff</span>
+              <label for="thresh-slider">Confidence cutoff</label>
               <strong id="thresh-val">0.90</strong>
             </div>
             <input
@@ -184,7 +196,6 @@
               max="0.95"
               step="0.05"
               value="0.90"
-              aria-label="Confidence cutoff"
             />
           </div>
 
@@ -196,15 +207,21 @@
 
           <div class="readout-line">
             <span>Deforestation area</span>
-            <strong id="area-pct">0.0%</strong>
+            <strong id="area-pct" aria-live="polite">0.0%</strong>
           </div>
 
           <div class="file-actions">
-            <input type="file" id="png-input" accept="image/png,image/*" hidden />
-            <button type="button" id="load-png-btn" class="btn-secondary">Load local PNG</button>
+            <input type="file" id="png-input" accept="image/png" hidden />
+            <button type="button" id="load-png-btn" class="btn-secondary">Load probability PNG</button>
             <button type="button" id="reset-demo-btn" class="btn-secondary" hidden>Reset demo</button>
             <button type="button" id="export-mask-btn" class="btn-secondary">Export mask PNG</button>
           </div>
+
+          <p class="panel-hint">
+            Default view is a synthetic probability field. Local PNG uploads threshold grayscale
+            brightness directly without running in-browser model inference.
+          </p>
+          <p id="upload-status" class="upload-status" role="status" aria-live="polite" hidden></p>
         </section>
 
         <section class="instrument" aria-label="Training run inspector">
@@ -222,9 +239,8 @@
             <svg
               id="curve-svg"
               viewBox="0 0 420 170"
-              preserveAspectRatio="none"
               role="img"
-              aria-label="44-epoch training and validation curve"
+              aria-label="44-epoch IoU training and validation curve"
             ></svg>
           </div>
 
@@ -238,7 +254,7 @@
 
           <div class="ctrl-row">
             <div class="ctrl-label">
-              <span>Inspect epoch</span>
+              <label for="ep-slider">Inspect epoch</label>
               <strong id="ep-label">Epoch 44 / 44</strong>
             </div>
             <input
@@ -248,7 +264,6 @@
               max="44"
               step="1"
               value="44"
-              aria-label="Inspect training epoch"
             />
           </div>
 
@@ -258,11 +273,14 @@
             <button type="button" class="btn-chip" data-ep="44" aria-pressed="true">Ep 44 (EarlyStop)</button>
           </div>
 
-          <div class="ep-readout" id="ep-readout">
+          <div class="ep-readout" id="ep-readout" aria-live="polite">
             <span>Train: <strong>0.844</strong></span>
             <span>Val: <strong>0.731</strong></span>
             <span>Val P / R: <strong>0.93 / 0.89</strong></span>
-            <span>Test (42 chips): <strong>0.460 IoU · 99.1% rec</strong></span>
+          </div>
+
+          <div class="bench-benchmark">
+            Final test (42 tiles): <strong>0.460 IoU</strong> · <strong>99.1% recall</strong> · <strong>69.6% precision</strong>
           </div>
         </section>
       </div>
@@ -285,7 +303,7 @@
     <footer class="foot">
       <span>XLab by dmxsan.dev</span>
       <div class="foot-links">
-        <a href="https://dmxsan.dev" rel="noopener noreferrer">dmxsan.dev</a>
+        <a href="https://dmxsan.dev">dmxsan.dev</a>
         <a href="https://github.com/dmxsan" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </footer>

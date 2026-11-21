@@ -1,13 +1,13 @@
 # XLab by dmxsan.dev
 
-An open geospatial lab by [dmxsan.dev](https://dmxsan.dev) for in-progress experiments, spatial models, and interactive demos.
+An open geospatial lab accompanying the [dmxsan.dev](https://dmxsan.dev) portfolio, hosting in-progress experiments, spatial models, and interactive demos.
 
 ## Structure
 
 - `index.html`: Root index of experiments and latest updates
-- `deforestation/`: Automatic Deforestation Detection prototype (44-epoch training curve inspector and confidence cutoff preview)
+- [`deforestation/`](https://dmxsan.github.io/deforestation/): Automatic Deforestation Detection prototype (44-epoch training curve inspector and confidence cutoff preview)
 - `assets/styles.css`: Shared Light EO and Dark Forest CSS tokens and layout styles
-- `assets/theme.js`: Theme toggle and `dmxsan-theme` persistence synced with `dmxsan.dev`
+- `assets/theme.js`: Theme toggle using the same `dmxsan-theme` storage key convention as `dmxsan.dev`
 - `favicon.svg`: 5x5 NIR X mark
 - `404.html`: Fallback page for retired or unknown routes
 

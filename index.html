@@ -53,7 +53,7 @@
           <span><span class="brand-x">X</span>Lab</span>
         </a>
         <span class="brand-by">
-          by <a href="https://dmxsan.dev" rel="noopener noreferrer">dmxsan.dev</a>
+          by <a href="https://dmxsan.dev">dmxsan.dev</a>
         </span>
       </div>
 
@@ -73,7 +73,7 @@
           data-light-label="Light EO"
           data-dark-label="Dark Forest"
           aria-pressed="false"
-          aria-label="Switch palette to Dark Forest"
+          aria-label="Dark Forest palette"
           title="Switch palette to Dark Forest"
         >
           <svg
@@ -115,10 +115,11 @@
 
     <main id="main-content" class="page" tabindex="-1">
       <section class="intro" aria-label="About XLab">
+        <h1 class="page-intro-title">Geospatial &amp; GeoAI Lab</h1>
         <p>
-          <strong>XLab</strong> is an open geospatial lab by
-          <a href="https://dmxsan.dev" rel="noopener noreferrer">dmxsan.dev</a> for in-progress
-          experiments, spatial models, and interactive demos.
+          <strong>XLab</strong> is an open geospatial lab accompanying the
+          <a href="https://dmxsan.dev">dmxsan.dev</a> portfolio, hosting in-progress experiments,
+          spatial models, and interactive demos.
         </p>
 
         <div id="lab-filters" class="filter-controls" hidden>
@@ -202,7 +203,7 @@
     <footer class="foot">
       <span>XLab by dmxsan.dev</span>
       <div class="foot-links">
-        <a href="https://dmxsan.dev" rel="noopener noreferrer">dmxsan.dev</a>
+        <a href="https://dmxsan.dev">dmxsan.dev</a>
         <a href="https://github.com/dmxsan" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </footer>
@@ -219,6 +220,7 @@
         const countEl = document.getElementById('exp-count');
         const emptyEl = document.getElementById('empty-msg');
 
+        const LABELS = { all: 'All', geoai: 'GeoAI', webgis: 'WebGIS', tools: 'Tools' };
         const cats = ['all', ...new Set(items.map((el) => el.dataset.category).filter(Boolean))];
         let activeCat = 'all';
 
@@ -227,7 +229,7 @@
           btn.type = 'button';
           btn.className = 'btn-chip';
           btn.dataset.cat = cat;
-          btn.textContent = cat;
+          btn.textContent = LABELS[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
           btn.setAttribute('aria-pressed', String(cat === 'all'));
           btn.addEventListener('click', () => {
             activeCat = cat;
@@ -244,7 +246,7 @@
           let shown = 0;
           items.forEach((el) => {
             const catOk = activeCat === 'all' || el.dataset.category === activeCat;
-            const qOk = !q || (el.dataset.search || '').includes(q);
+            const qOk = !q || (el.dataset.search || '').toLowerCase().includes(q);
             const vis = catOk && qOk;
             el.hidden = !vis;
             if (vis) shown++;
@@ -255,6 +257,7 @@
 
         searchInput.addEventListener('input', apply);
         filterBox.hidden = false;
+        apply();
       })();
     </script>
   </body>

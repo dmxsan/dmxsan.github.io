@@ -27,7 +27,7 @@
       const darkLabel = btn.dataset.darkLabel || 'Dark Forest';
       const targetLabel = isDark ? lightLabel : darkLabel;
       btn.setAttribute('aria-pressed', String(isDark));
-      btn.setAttribute('aria-label', `Switch palette to ${targetLabel}`);
+      btn.setAttribute('aria-label', `${darkLabel} palette`);
       btn.setAttribute('title', `Switch palette to ${targetLabel}`);
     });
   }
@@ -64,6 +64,12 @@
       applyTheme(ev.matches ? 'dark' : 'light', false);
     });
   }
+
+  window.addEventListener('storage', (ev) => {
+    if (ev.key === THEME_STORAGE_KEY) {
+      applyTheme(readStoredTheme() || getSystemTheme(), false);
+    }
+  });
 
   applyTheme(readStoredTheme() || getSystemTheme(), false);
 })();

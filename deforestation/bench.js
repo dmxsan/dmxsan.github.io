@@ -65,16 +65,23 @@
     }
   }
 
+  const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
   let activeField = demoField;
   let sourceKind = 'demo';
   let tileMode = 'mask';
   let thresh = 0.90;
   let activeMetric = 'iou';
   let activeEpoch = 44;
+  let uploadSeq = 0;
 
   const canvas = document.getElementById('tile-canvas');
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas ? canvas.getContext('2d') : null;
+  const curveSvg = document.getElementById('curve-svg');
+  if (!canvas || !ctx || !curveSvg) return;
+
   const canvasTag = document.getElementById('canvas-tag');
+  const legendBinary = document.getElementById('legend-binary');
+  const legendProb = document.getElementById('legend-prob');
   const threshSlider = document.getElementById('thresh-slider');
   const threshVal = document.getElementById('thresh-val');
   const areaPct = document.getElementById('area-pct');
@@ -82,8 +89,8 @@
   const loadPngBtn = document.getElementById('load-png-btn');
   const resetDemoBtn = document.getElementById('reset-demo-btn');
   const exportMaskBtn = document.getElementById('export-mask-btn');
+  const uploadStatus = document.getElementById('upload-status');
 
-  const curveSvg = document.getElementById('curve-svg');
   const epSlider = document.getElementById('ep-slider');
   const epLabel = document.getElementById('ep-label');
   const lrNote = document.getElementById('lr-note');
@@ -91,13 +98,45 @@
   const legB = document.getElementById('leg-b');
   const epReadout = document.getElementById('ep-readout');
 
-  function hexToRgb(hex) {
-    const h = hex.replace('#', '').trim();
-    return [
-      parseInt(h.slice(0, 2), 16),
-      parseInt(h.slice(2, 4), 16),
-      parseInt(h.slice(4, 6), 16)
-    ];
+  function colorToRgb(raw, fallback) {
+    const val = (raw || '').trim();
+    if (val.startsWith('#')) {
+      const h = val.slice(1);
+      if (h.length === 3) {
+        const rgb = [
+          parseInt(h[0] + h[0], 16),
+          parseInt(h[1] + h[1], 16),
+          parseInt(h[2] + h[2], 16)
+        ];
+        if (rgb.every(Number.isFinite)) return rgb;
+      } else if (h.length >= 6) {
+        const rgb = [
+          parseInt(h.slice(0, 2), 16),
+          parseInt(h.slice(2, 4), 16),
+          parseInt(h.slice(4, 6), 16)
+        ];
+        if (rgb.every(Number.isFinite)) return rgb;
+      }
+    }
+    const match = val.match(/^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
+    if (match) {
+      const rgb = [Number(match[1]), Number(match[2]), Number(match[3])];
+      if (rgb.every(Number.isFinite)) return rgb;
+    }
+    return fallback;
+  }
+
+  function setStatus(message, isError) {
+    if (!uploadStatus) return;
+    if (!message) {
+      uploadStatus.textContent = '';
+      uploadStatus.classList.remove('is-error');
+      uploadStatus.hidden = true;
+      return;
+    }
+    uploadStatus.textContent = message;
+    uploadStatus.classList.toggle('is-error', Boolean(isError));
+    uploadStatus.hidden = false;
   }
 
   function syncThreshPresets() {
@@ -109,10 +148,10 @@
 
   function renderTile() {
     const cs = getComputedStyle(document.documentElement);
-    const bg = hexToRgb(cs.getPropertyValue('--bg'));
-    const ndvi = hexToRgb(cs.getPropertyValue('--ndvi'));
-    const nir = hexToRgb(cs.getPropertyValue('--nir'));
-    const amber = hexToRgb(cs.getPropertyValue('--amber'));
+    const bg = colorToRgb(cs.getPropertyValue('--bg'), [245, 246, 242]);
+    const ndvi = colorToRgb(cs.getPropertyValue('--ndvi'), [38, 92, 71]);
+    const nir = colorToRgb(cs.getPropertyValue('--nir'), [158, 59, 75]);
+    const amber = colorToRgb(cs.getPropertyValue('--amber'), [138, 86, 24]);
 
     const img = ctx.createImageData(SIZE, SIZE);
     let positiveCount = 0;
@@ -179,10 +218,20 @@
 
     ctx.putImageData(img, 0, 0);
     threshVal.textContent = thresh.toFixed(2);
-    areaPct.textContent = ((positiveCount / (SIZE * SIZE)) * 100).toFixed(1) + '%';
-    const prefix = sourceKind === 'local' ? 'LOCAL PNG' : 'DEMO FIELD';
+    const areaString = ((positiveCount / (SIZE * SIZE)) * 100).toFixed(1) + '%';
+    areaPct.textContent = areaString;
+    const prefix = sourceKind === 'local' ? 'LOCAL PNG' : 'SYNTHETIC FIELD';
     canvasTag.textContent =
-      tileMode === 'prob' ? `${prefix} · PROBABILITY` : `${prefix} · p > ${thresh.toFixed(2)}`;
+      tileMode === 'prob' ? `${prefix} · PROBABILITY` : `${prefix} · p >= ${thresh.toFixed(2)}`;
+    if (legendBinary && legendProb) {
+      const isProb = tileMode === 'prob';
+      legendBinary.hidden = isProb;
+      legendProb.hidden = !isProb;
+    }
+    canvas.setAttribute(
+      'aria-label',
+      `128x128 ${sourceKind === 'local' ? 'uploaded PNG' : 'synthetic'} deforestation probability preview at cutoff ${thresh.toFixed(2)}, ${areaString} deforestation area`
+    );
     syncThreshPresets();
   }
 
@@ -286,11 +335,27 @@
     const fmt = (v) => (activeMetric === 'acc' ? (v * 100).toFixed(1) + '%' : v.toFixed(3));
     const labelA = activeMetric === 'pr' ? 'Val Prec' : 'Train';
     const labelB = activeMetric === 'pr' ? 'Val Rec' : 'Val';
+    const prSummary =
+      activeMetric === 'pr'
+        ? ''
+        : `<span>Val P / R: <strong>${cur.vprec.toFixed(2)} / ${cur.vrec.toFixed(2)}</strong></span>`;
     epReadout.innerHTML =
       `<span>${labelA}: <strong>${fmt(cur[keyA])}</strong></span>` +
       `<span>${labelB}: <strong>${fmt(cur[keyB])}</strong></span>` +
-      `<span>Val P / R: <strong>${cur.vprec.toFixed(2)} / ${cur.vrec.toFixed(2)}</strong></span>` +
-      `<span>Test (42 chips): <strong>0.460 IoU · 99.1% rec</strong></span>`;
+      prSummary;
+
+    const metricLabel =
+      activeMetric === 'loss'
+        ? 'loss'
+        : activeMetric === 'acc'
+          ? 'accuracy'
+          : activeMetric === 'pr'
+            ? 'validation precision and recall'
+            : 'IoU';
+    curveSvg.setAttribute(
+      'aria-label',
+      `44-epoch ${metricLabel} curve, inspecting epoch ${cur.ep} of 44`
+    );
 
     syncEpochPresets();
   }
@@ -309,6 +374,7 @@
 
   let dragging = false;
   curveSvg.addEventListener('pointerdown', (ev) => {
+    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
     dragging = true;
     curveSvg.setPointerCapture(ev.pointerId);
     scrubCurveFromPointer(ev);
@@ -373,39 +439,72 @@
 
   pngInput.addEventListener('change', () => {
     const file = pngInput.files && pngInput.files[0];
+    pngInput.value = '';
     if (!file) return;
+
+    const isPng = file.type === 'image/png' || (!file.type && /\.png$/i.test(file.name));
+    if (!isPng) {
+      setStatus('Select a PNG grayscale probability image (.png only).', true);
+      return;
+    }
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setStatus('File exceeds 10 MB limit. Select a smaller PNG tile.', true);
+      return;
+    }
+
+    const seq = ++uploadSeq;
     const url = URL.createObjectURL(file);
     const img = new Image();
     img.onload = () => {
-      const off = document.createElement('canvas');
-      off.width = SIZE;
-      off.height = SIZE;
-      const octx = off.getContext('2d');
-      octx.drawImage(img, 0, 0, SIZE, SIZE);
-      const px = octx.getImageData(0, 0, SIZE, SIZE).data;
-      const loaded = new Float32Array(SIZE * SIZE);
-      for (let i = 0; i < SIZE * SIZE; i++) {
-        const o = i * 4;
-        const lum = (0.299 * px[o] + 0.587 * px[o + 1] + 0.114 * px[o + 2]) / 255;
-        loaded[i] = lum;
+      try {
+        if (seq !== uploadSeq) return;
+        if (!img.naturalWidth || !img.naturalHeight) {
+          setStatus('Selected PNG has empty dimensions.', true);
+          return;
+        }
+        const off = document.createElement('canvas');
+        off.width = SIZE;
+        off.height = SIZE;
+        const octx = off.getContext('2d');
+        if (!octx) {
+          setStatus('Canvas 2D context unavailable for image decoding.', true);
+          return;
+        }
+        octx.drawImage(img, 0, 0, SIZE, SIZE);
+        const px = octx.getImageData(0, 0, SIZE, SIZE).data;
+        const loaded = new Float32Array(SIZE * SIZE);
+        for (let i = 0; i < SIZE * SIZE; i++) {
+          const o = i * 4;
+          const alpha = px[o + 3] / 255;
+          const lum = (0.299 * px[o] + 0.587 * px[o + 1] + 0.114 * px[o + 2]) / 255;
+          loaded[i] = lum * alpha;
+        }
+        activeField = loaded;
+        sourceKind = 'local';
+        resetDemoBtn.hidden = false;
+        setStatus(`Loaded ${file.name} (${img.naturalWidth}x${img.naturalHeight} scaled to 128x128).`, false);
+        renderTile();
+      } catch {
+        setStatus('Could not decode image pixel data in this browser.', true);
+      } finally {
+        URL.revokeObjectURL(url);
       }
-      URL.revokeObjectURL(url);
-      activeField = loaded;
-      sourceKind = 'local';
-      resetDemoBtn.hidden = false;
-      renderTile();
     };
     img.onerror = () => {
       URL.revokeObjectURL(url);
+      if (seq === uploadSeq) {
+        setStatus('Unable to read the selected PNG file.', true);
+      }
     };
     img.src = url;
-    pngInput.value = '';
   });
 
   resetDemoBtn.addEventListener('click', () => {
+    uploadSeq++;
     activeField = demoField;
     sourceKind = 'demo';
     resetDemoBtn.hidden = true;
+    setStatus('', false);
     renderTile();
   });
 
@@ -414,6 +513,10 @@
     out.width = SIZE;
     out.height = SIZE;
     const octx = out.getContext('2d');
+    if (!octx) {
+      setStatus('Canvas 2D context unavailable for mask export.', true);
+      return;
+    }
     const img = octx.createImageData(SIZE, SIZE);
     for (let i = 0; i < SIZE * SIZE; i++) {
       const v = activeField[i] >= thresh ? 255 : 0;
@@ -434,10 +537,13 @@
     };
     if (out.toBlob) {
       out.toBlob((blob) => {
-        if (!blob) return;
+        if (!blob) {
+          trigger(out.toDataURL('image/png'));
+          return;
+        }
         const url = URL.createObjectURL(blob);
         trigger(url);
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
       }, 'image/png');
     } else {
       trigger(out.toDataURL('image/png'));
