@@ -109,6 +109,8 @@
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
+    <div class="shell">
+      <div class="site-frame">
     <header class="topbar">
       <div class="brand-lockup">
         <a href="./" class="brand-mark">
@@ -183,37 +185,39 @@
     </header>
 
     <main id="main-content" class="page" tabindex="-1">
-      <section class="intro" aria-label="About XLab">
-        <h1 class="page-intro-title">Geospatial &amp; GeoAI Lab</h1>
-        <p>
-          An open geospatial lab hosting in-progress experiments, spatial models, and interactive
-          demos.
-        </p>
+      <div class="hero-grid">
+        <section class="intro" aria-label="About XLab">
+          <h1 class="page-intro-title">Geospatial &amp; GeoAI Lab</h1>
+          <p>
+            An open geospatial lab hosting in-progress experiments, spatial models, and interactive
+            demos.
+          </p>
 
-        <div id="lab-filters" class="filter-controls" hidden>
-          <input
-            type="search"
-            id="lab-search"
-            class="search-input"
-            placeholder="Filter experiments..."
-            aria-label="Filter experiments"
-          />
-          <div id="lab-categories" class="filter-pills" role="group" aria-label="Filter by category"></div>
-        </div>
-      </section>
+          <div id="lab-filters" class="filter-controls" hidden>
+            <input
+              type="search"
+              id="lab-search"
+              class="search-input"
+              placeholder="Filter experiments..."
+              aria-label="Filter experiments"
+            />
+            <div id="lab-categories" class="filter-pills" role="group" aria-label="Filter by category"></div>
+          </div>
+        </section>
 
-      <section aria-label="Latest updates">
-        <div class="sec-head">
-          <h2 class="sec-title">Latest Updates</h2>
-        </div>
-        <ul class="updates">
-          <li>
-            <span class="u-date">2026-11-21</span>
-            <a href="./deforestation/" class="u-link">Automatic Deforestation Detection</a>
-            <span class="u-note">Added U-Net training inspector and confidence cutoff preview.</span>
-          </li>
-        </ul>
-      </section>
+        <section class="updates-panel" aria-label="Latest updates">
+          <div class="sec-head">
+            <h2 class="sec-title">Latest Updates</h2>
+          </div>
+          <ul class="updates">
+            <li>
+              <span class="u-date">2026-11-21</span>
+              <a href="./deforestation/" class="u-link">Automatic Deforestation Detection</a>
+              <span class="u-note">Added U-Net training inspector and confidence cutoff preview.</span>
+            </li>
+          </ul>
+        </section>
+      </div>
 
       <section aria-label="Experiments">
         <div class="sec-head">
@@ -227,41 +231,47 @@
             data-category="geoai"
             data-search="automatic deforestation detection satellite imagery deep learning u-net tensorflow"
           >
-            <svg class="thumb-svg" viewBox="0 0 64 64" aria-hidden="true">
-              <rect width="64" height="64" fill="var(--ndvi-soft)" />
-              <path d="M0,32 H64 M32,0 V64" stroke="var(--line)" stroke-width="0.6" />
-              <path
-                d="M13,14 L34,12 L41,28 L29,37 L11,27 Z"
-                fill="var(--nir-soft)"
-                stroke="var(--nir)"
-                stroke-width="1.2"
-              />
-              <path
-                d="M37,40 L54,38 L56,53 L40,55 Z"
-                fill="var(--nir-soft)"
-                stroke="var(--nir)"
-                stroke-width="1.2"
-              />
-            </svg>
+            <a href="./deforestation/" class="proj-plate" tabindex="-1" aria-hidden="true">
+              <svg class="plate-svg" viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice">
+                <path d="M0,37.5 H240 M0,75 H240 M0,112.5 H240 M60,0 V150 M120,0 V150 M180,0 V150" stroke="var(--line)" stroke-width="0.7" />
+                <path
+                  d="M32,28 L108,22 L128,68 L90,94 L28,66 Z"
+                  fill="var(--nir-soft)"
+                  stroke="var(--nir)"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M134,82 L202,74 L212,124 L144,132 Z"
+                  fill="var(--nir-soft)"
+                  stroke="var(--nir)"
+                  stroke-width="1.5"
+                />
+                <circle cx="108" cy="22" r="2.5" fill="var(--nir)" />
+                <circle cx="202" cy="74" r="2.5" fill="var(--nir)" />
+              </svg>
+            </a>
 
-            <div>
-              <div class="proj-title-row">
-                <h3 class="proj-title">
-                  <a href="./deforestation/">Automatic Deforestation Detection</a>
-                </h3>
-                <span class="maturity-badge">PROTOTYPE</span>
+            <div class="proj-body">
+              <div>
+                <div class="proj-title-row">
+                  <h3 class="proj-title">
+                    <a href="./deforestation/">Automatic Deforestation Detection</a>
+                  </h3>
+                  <span class="maturity-badge">PROTOTYPE</span>
+                </div>
+                <p class="proj-desc">
+                  Detects deforestation from satellite imagery using a deep learning model.
+                </p>
               </div>
-              <p class="proj-desc">
-                Detects deforestation from satellite imagery using a deep learning model.
-              </p>
-              <div class="uniform-tags">
-                <span class="u-tag">GeoAI</span>
-                <span class="u-tag">U-Net</span>
-                <span class="u-tag">TensorFlow</span>
+              <div class="proj-foot">
+                <div class="uniform-tags">
+                  <span class="u-tag">GeoAI</span>
+                  <span class="u-tag">U-Net</span>
+                  <span class="u-tag">TensorFlow</span>
+                </div>
+                <a href="./deforestation/" class="btn-primary">Open →</a>
               </div>
             </div>
-
-            <a href="./deforestation/" class="btn-primary">Open →</a>
           </li>
         </ul>
         <p id="empty-msg" class="u-note" hidden>No experiments match this filter.</p>
@@ -277,12 +287,15 @@
         <a href="mailto:hello@dmxsan.dev">Email</a>
       </div>
     </footer>
+      </div>
+    </div>
 
     <script src="./assets/theme.js"></script>
     <script>
       (() => {
         const items = [...document.querySelectorAll('.proj-item')];
         if (items.length <= 1) return;
+        document.getElementById('proj-list').classList.add('is-multi');
 
         const filterBox = document.getElementById('lab-filters');
         const searchInput = document.getElementById('lab-search');
